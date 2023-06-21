@@ -1,4 +1,14 @@
-# template-editor-demo
-模版编辑
+# Vue2 wangEditor demo
 
-一个结构化编辑器demo
+本项目通过 [Vue-cli](https://cli.vuejs.org/zh/) 创建。
+
+## 本地运行
+
+```sh
+yarn install
+yarn serve
+```
+
+## 参考
+
+- [文档](https://www.wangeditor.com/v5/guide/for-frame.html#vue2)

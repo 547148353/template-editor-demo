@@ -1,85 +1,58 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div id="app">
+    <!-- <button @click="dialogVisible = !dialogVisible">show/hide</button>
+    <hr> -->
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <!-- <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+    <el-dialog
+      title="editor"
+      :visible.sync="dialogVisible"
+      width="80%"
+    >
+      <my-editor></my-editor>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog> -->
 
-  <RouterView />
+    <!-- <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>卡片名称</span>
+        <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+      </div>
+      <my-editor></my-editor>
+    </el-card> -->
+
+    <my-editor></my-editor>
+    <!-- <MyEditorWithFormula></MyEditorWithFormula> -->
+    <!-- <my-editor-with-mention></my-editor-with-mention> -->
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script>
+import MyEditor from './components/MyEditor.vue'
+// import MyEditorWithFormula from './components/MyEditorWithFormula'
+// import MyEditorWithMention from './components/MyEditorWithMention'
+
+export default {
+  name: 'App',
+  components: {
+    MyEditor,
+    // MyEditorWithFormula,
+    // MyEditorWithMention
+  },
+  // data() {
+  //     return {
+  //       dialogVisible: false
+  //     }
+  // },
 }
+</script>
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+<style>
+.box-card {
+  width: 800px;
 }
 </style>
