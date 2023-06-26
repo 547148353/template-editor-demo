@@ -28,16 +28,16 @@
 </template>
 
 <script>
-import { Boot } from '@wangeditor/editor';
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+import { Boot } from '@wangeditor/editor'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 // import mentionModule from '@wangeditor/plugin-mention'
-import mentionModule from '@/plugin';
-import MentionModal from './MentionModal';
+import mentionModule from '@/plugin'
+import MentionModal from './MentionModal'
 
 // import { SlateEditor, SlateElement, SlateNode } from '@wangeditor/editor'
 
 // 注册插件
-Boot.registerModule(mentionModule);
+Boot.registerModule(mentionModule)
 
 export default {
   name: 'MyEditorWithMention',
@@ -58,24 +58,24 @@ export default {
         }
       },
       isShowModal: false
-    };
+    }
   },
   methods: {
     customAlert(info, type) {
-      window.alert(`customAlert in Vue demo\n${type}:\n${info}`);
+      window.alert(`customAlert in Vue demo\n${type}:\n${info}`)
     },
     onCreated(editor) {
-      this.editor = Object.seal(editor); // 【注意】一定要用 Object.seal() 否则会报错
+      this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },
     onChange(editor) {
-      console.log(11);
-      editor.setMention();
+      console.log(11)
+      editor.setMention()
     },
     showMentionModal() {
-      this.isShowModal = true;
+      this.isShowModal = true
     },
     hideMentionModal() {
-      this.isShowModal = false;
+      this.isShowModal = false
     },
     insertMention(id, name) {
       const mentionNode = {
@@ -83,22 +83,22 @@ export default {
         value: name,
         info: { id },
         children: [{ text: '' }] // 必须有一个空 text 作为 children
-      };
-      const editor = this.editor;
+      }
+      const editor = this.editor
       if (editor) {
-        editor.restoreSelection(); // 恢复选区
-        editor.deleteBackward('character'); // 删除该选区
-        editor.insertNode(mentionNode); // 插入 mention
-        editor.move(1); // 移动光标
+        editor.restoreSelection() // 恢复选区
+        editor.deleteBackward('character') // 删除该选区
+        editor.insertNode(mentionNode) // 插入 mention
+        editor.move(1) // 移动光标
       }
     }
   },
   beforeDestroy() {
-    const editor = this.editor;
-    if (editor == null) return;
-    editor.destroy(); // 组件销毁时，及时销毁 editor ，重要！！！
+    const editor = this.editor
+    if (editor == null) return
+    editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
   }
-};
+}
 </script>
 
 <style src="@wangeditor/editor/dist/css/style.css"></style>

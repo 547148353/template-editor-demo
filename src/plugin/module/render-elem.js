@@ -6,7 +6,6 @@
 import { h } from 'snabbdom'
 import { DomEditor } from '@wangeditor/editor'
 
-
 function renderMention(elem, children, editor) {
   // 当前节点是否选中
   const selected = DomEditor.isNodeSelected(editor, elem)
@@ -17,7 +16,7 @@ function renderMention(elem, children, editor) {
     'span',
     {
       props: {
-        contentEditable: false, // 不可编辑
+        contentEditable: false // 不可编辑
       },
       style: {
         marginLeft: '3px',
@@ -27,8 +26,8 @@ function renderMention(elem, children, editor) {
           ? '2px solid var(--w-e-textarea-selected-border-color)' // wangEditor 提供了 css var https://www.wangeditor.com/v5/theme.html
           : '2px solid transparent',
         borderRadius: '3px',
-        padding: '0 3px',
-      },
+        padding: '0 3px'
+      }
     },
     `@${value}` // 如 `@张三`
   )
@@ -38,7 +37,7 @@ function renderMention(elem, children, editor) {
 
 const conf = {
   type: 'mention', // 节点 type ，重要！！！
-  renderElem: renderMention,
+  renderElem: renderMention
 }
 
 export default conf

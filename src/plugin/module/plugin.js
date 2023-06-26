@@ -20,40 +20,38 @@ function withMention(editor) {
   newEditor.setMention = () => {
     const node = getFragment()[0]
 
-    setTimeout(() => {      // 展示 modal （异步，以便准确获取光标位置）
+    setTimeout(() => {
+    // 展示 modal （异步，以便准确获取光标位置）
       if (node?.children.length == 1) {
         const dom = node.children[0]
-        console.log(dom);
+        console.log(dom)
         if (dom?.type == 'mention') {
           if (showModal) showModal(newEditor)
 
           // 监听，隐藏 modal（异步，等待 modal 渲染后再监听）
-          setTimeout(() => {
-            function _hide() {
-              if (hideModal) hideModal(newEditor)
-            }
-            newEditor.once('fullScreen', _hide)
-            newEditor.once('unFullScreen', _hide)
-            newEditor.once('scroll', _hide)
-            newEditor.once('modalOrPanelShow', _hide)
-            newEditor.once('modalOrPanelHide', _hide)
+          // setTimeout(() => {
+          //   function _hide() {
+          //     if (hideModal) hideModal(newEditor)
+          //   }
+          //   newEditor.once('fullScreen', _hide)
+          //   newEditor.once('unFullScreen', _hide)
+          //   newEditor.once('scroll', _hide)
+          //   newEditor.once('modalOrPanelShow', _hide)
+          //   newEditor.once('modalOrPanelHide', _hide)
 
-            function hideOnChange() {
-              if (newEditor.selection != null) {
-                _hide()
-                newEditor.off('change', hideOnChange) // 及时解绑
-              }
-            }
-            newEditor.once('change', hideOnChange)
-          })
-
+          //   function hideOnChange() {
+          //     if (newEditor.selection != null) {
+          //       _hide()
+          //       newEditor.off('change', hideOnChange) // 及时解绑
+          //     }
+          //   }
+          //   newEditor.once('change', hideOnChange)
+          // })
         }
-
       }
     })
     return getFragment()
   }
-
 
   newEditor.insertText = t => {
     // 选过选中了 void 元素

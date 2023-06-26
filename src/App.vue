@@ -42,7 +42,7 @@ export default {
     // MyEditor,
     // MyEditorWithFormula,
     MyEditorWithMention
-  },
+  }
   // data() {
   //     return {
   //       dialogVisible: false

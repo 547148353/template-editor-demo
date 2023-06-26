@@ -20,13 +20,13 @@ function parseHtml(elem, children, editor) {
     type: 'mention',
     value,
     info,
-    children: [{ text: '' }], // void node 必须有一个空白 text
+    children: [{ text: '' }] // void node 必须有一个空白 text
   }
 }
 
 const parseHtmlConf = {
   selector: 'span[data-w-e-type="mention"]',
-  parseElemHtml: parseHtml,
+  parseElemHtml: parseHtml
 }
 
 export default parseHtmlConf
