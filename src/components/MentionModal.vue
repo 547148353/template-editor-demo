@@ -67,10 +67,12 @@ export default {
         }
     },
     mounted() {
+    
         // 获取光标位置
         const domSelection = document.getSelection()
         const domRange = domSelection?.getRangeAt(0)
         if (domRange == null) return
+        console.log(domRange);
         const rect = domRange.getBoundingClientRect()
 
         // 定位 modal
