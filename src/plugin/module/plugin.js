@@ -21,7 +21,7 @@ function withMention(editor) {
     const node = getFragment()[0]
 
     setTimeout(() => {
-    // 展示 modal （异步，以便准确获取光标位置）
+      // 展示 modal （异步，以便准确获取光标位置）
       if (node?.children.length == 1) {
         const dom = node.children[0]
         console.log(dom)

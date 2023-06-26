@@ -14,7 +14,7 @@ function mentionToHtml(elem, childrenHtml) {
 // 配置
 const conf = {
   type: 'mention', // 节点 type ，重要！！！
-  elemToHtml: mentionToHtml,
+  elemToHtml: mentionToHtml
 }
 
 export default conf

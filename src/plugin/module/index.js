@@ -12,7 +12,7 @@ const module = {
   editorPlugin: withMention,
   renderElems: [renderElemConf],
   elemsToHtml: [elemToHtmlConf],
-  parseElemsHtml: [parseHtmlConf],
+  parseElemsHtml: [parseHtmlConf]
 }
 
 export default module
