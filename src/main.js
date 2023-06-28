@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import clickoutside from '@/directives/clickoutside'
+import clickoutside from '@/directives/click-outside'
 Vue.directive('clickoutside', clickoutside)
 Vue.use(ElementUI)
 

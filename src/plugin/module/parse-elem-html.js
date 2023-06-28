@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /**
  * @description parse elem html
- * @author wangfupeng
+ * @author wenhao.yang
  */
 
 function parseHtml(elem, children, editor) {
@@ -9,17 +9,22 @@ function parseHtml(elem, children, editor) {
 
   const value = elem.getAttribute('data-value') || ''
   const rawInfo = decodeURIComponent(elem.getAttribute('data-info') || '')
+  const rawList = decodeURIComponent(elem.getAttribute('data-list') || '')
   let info
+  let list
   try {
     info = JSON.parse(rawInfo)
+    list = JSON.parse(rawList)
   } catch (ex) {
     info = rawInfo
+    list = rawList
   }
 
   return {
     type: 'mention',
     value,
     info,
+    list,
     children: [{ text: '' }] // void node 必须有一个空白 text
   }
 }

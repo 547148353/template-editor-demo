@@ -6,9 +6,10 @@
 // 生成 html 的函数
 // eslint-disable-next-line no-unused-vars
 function mentionToHtml(elem, childrenHtml) {
-  const { value = '', info = {} } = elem
+  const { value = '', info = {}, list = [] } = elem
   const infoStr = encodeURIComponent(JSON.stringify(info))
-  return `<span data-w-e-type="mention" data-w-e-is-void data-w-e-is-inline data-value="${value}" data-info="${infoStr}">@${value}</span>`
+  const listStr = encodeURIComponent(JSON.stringify(list))
+  return `<span data-w-e-type="mention" data-w-e-is-void data-w-e-is-inline data-value="${value}" data-info="${infoStr}" data-list="${listStr}">@${value}</span>`
 }
 
 // 配置

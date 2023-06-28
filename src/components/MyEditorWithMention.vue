@@ -11,11 +11,11 @@
         style="height: 400px"
         v-model="html"
         :defaultConfig="editorConfig"
-        @onChange="onChange"
         @onCreated="onCreated"
         @customAlert="customAlert"
       />
       <mention-modal
+        ref="mention"
         v-if="isShowModal"
         @hideMentionModal="hideMentionModal"
         @insertMention="insertMention"
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { Boot } from '@wangeditor/editor'
+import { Boot, DomEditor } from '@wangeditor/editor'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 // import mentionModule from '@wangeditor/plugin-mention'
 import mentionModule from '@/plugin'
@@ -67,23 +67,61 @@ export default {
     onCreated(editor) {
       this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },
-    onChange(editor) {
-      console.log(11)
-      editor.setMention()
-    },
-    showMentionModal() {
-      this.isShowModal = true
+    showMentionModal(editor) {
+      console.log(editor.getSelectionPosition(), '获取选区的定位')
+      console.log(editor.getNodePosition(), '某个节点的定位')
+      // 获取光标位置
+      const domSelection = document.getSelection()
+      const domRange = domSelection?.getRangeAt(0)
+      if (domRange == null) return
+      const rect = domRange.getBoundingClientRect()
+
+      console.log(rect, '鼠标定位top', rect.top, 'left', rect.left)
+
+      // 选过选中了 void 元素
+      const elems = DomEditor.getSelectedElems(editor)
+      let list = elems[1]?.list
+      if (elems[1]?.list) {
+        this.isShowModal = true
+        this.$nextTick(() => {
+          let rawList
+          try {
+            rawList = JSON.parse(list)
+          } catch (ex) {
+            rawList = list
+          }
+          this.$refs.mention.list = rawList
+        })
+      } else {
+        list = [
+          { id: 'a', name: 'A张三' },
+          { id: 'b', name: 'B李四' },
+          { id: 'c', name: 'C小明' },
+          { id: 'd', name: 'D小李' },
+          { id: 'e', name: 'E小红' }
+        ]
+        this.isShowModal = true
+        setTimeout(() => {
+          try {
+            this.$refs.mention.list = list
+          } catch (ex) {
+            console.log(1)
+          }
+        }, 1000)
+      }
     },
     hideMentionModal() {
       this.isShowModal = false
     },
-    insertMention(id, name) {
+    insertMention(id, name, list) {
       const mentionNode = {
         type: 'mention', // 必须是 'mention'
         value: name,
         info: { id },
+        list,
         children: [{ text: '' }] // 必须有一个空 text 作为 children
       }
+      console.log(mentionNode)
       const editor = this.editor
       if (editor) {
         editor.restoreSelection() // 恢复选区

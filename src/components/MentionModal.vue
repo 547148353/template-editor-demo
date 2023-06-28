@@ -1,9 +1,5 @@
 <template>
-  <div
-    id="mention-modal"
-    :style="{ top: top, left: left }"
-    v-clickoutside="clickoutside"
-  >
+  <div id="mention-modal" :style="{ top: top, left: left }">
     <input
       id="mention-input"
       v-model="searchVal"
@@ -25,6 +21,7 @@
 <script>
 export default {
   name: 'MentionModal',
+  props: {},
   data() {
     return {
       // 定位信息
@@ -33,13 +30,7 @@ export default {
 
       // list 信息
       searchVal: '',
-      list: [
-        { id: 'a', name: 'A张三' },
-        { id: 'b', name: 'B李四' },
-        { id: 'c', name: 'C小明' },
-        { id: 'd', name: 'D小李' },
-        { id: 'e', name: 'E小红' }
-      ]
+      list: []
     }
   },
   computed: {
@@ -56,9 +47,6 @@ export default {
     }
   },
   methods: {
-    clickoutside() {
-      console.log(14)
-    },
     inputKeyupHandler(event) {
       // esc - 隐藏 modal
       if (event.key === 'Escape') {
@@ -76,7 +64,7 @@ export default {
       }
     },
     insertMentionHandler(id, name) {
-      this.$emit('insertMention', id, name)
+      this.$emit('insertMention', id, name, this.list)
       this.$emit('hideMentionModal') // 隐藏 modal
     }
   },
@@ -85,15 +73,14 @@ export default {
     const domSelection = document.getSelection()
     const domRange = domSelection?.getRangeAt(0)
     if (domRange == null) return
-    console.log(domRange)
+    // console.log(domRange)
     const rect = domRange.getBoundingClientRect()
-
     // 定位 modal
     this.top = `${rect.top + 20}px`
     this.left = `${rect.left + 5}px`
 
     // focus input
-    this.$refs.input.focus()
+    // this.$refs.input.focus()
   }
 }
 </script>

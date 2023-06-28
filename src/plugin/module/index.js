@@ -1,6 +1,6 @@
 /**
  * @description mention module entry
- * @author wangfupeng
+ * @author wenhao.yang
  */
 
 import withMention from './plugin'
