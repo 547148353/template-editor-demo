@@ -19,13 +19,12 @@ function withMention(editor) {
   const { showModal, hideModal } = getMentionConfig(newEditor)
 
   newEditor.clickTag = () => {
-    const node = getFragment()[0]
+    const [node] = getFragment()
     console.log(node)
     setTimeout(() => {
       // 展示 modal （异步，以便准确获取光标位置）
       if (node?.children.length == 1) {
-        const dom = node.children[0]
-        console.log(dom)
+        const [dom] = node.children
         if (dom?.type == 'mention') {
           if (showModal) showModal(newEditor)
 

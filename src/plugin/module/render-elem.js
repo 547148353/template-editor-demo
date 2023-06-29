@@ -7,7 +7,6 @@ import { h } from 'snabbdom'
 import { DomEditor } from '@wangeditor/editor'
 
 function renderMention(elem, children, editor) {
-  console.log(11)
   // 当前节点是否选中
   const selected = DomEditor.isNodeSelected(editor, elem)
   const { value = '' } = elem

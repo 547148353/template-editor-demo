@@ -28,13 +28,11 @@
 </template>
 
 <script>
-import { Boot, DomEditor } from '@wangeditor/editor'
+import { Boot, DomEditor, SlateTransforms } from '@wangeditor/editor'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 // import mentionModule from '@wangeditor/plugin-mention'
 import mentionModule from '@/plugin'
 import MentionModal from './MentionModal'
-
-// import { SlateEditor, SlateElement, SlateNode } from '@wangeditor/editor'
 
 // 注册插件
 Boot.registerModule(mentionModule)
@@ -61,12 +59,30 @@ export default {
     }
   },
   methods: {
+    selectToKnowledge() {
+      return this.editor.getFragment()
+    },
+    getselectNode() {
+      this.editor.restoreSelection()
+      console.log(this.editor.getFragment())
+    },
+    installNodes(list = []) {
+      this.editor.restoreSelection() //恢复选区
+      this.editor.deleteFragment() //删除选区
+      // this.editor.moveReverse(1)
+      SlateTransforms.insertNodes(this.editor, list) //替换
+      this.editor.move(1) //移动
+    },
     customAlert(info, type) {
       window.alert(`customAlert in Vue demo\n${type}:\n${info}`)
     },
     onCreated(editor) {
       this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },
+    /**
+     * 显示下拉栏内容
+     * @param {*} editor this.editor
+     */
     showMentionModal(editor) {
       console.log(editor.getSelectionPosition(), '获取选区的定位')
       console.log(editor.getNodePosition(), '某个节点的定位')

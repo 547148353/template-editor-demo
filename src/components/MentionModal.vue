@@ -1,6 +1,7 @@
 <template>
   <div id="mention-modal" :style="{ top: top, left: left }">
     <input
+      style="width: 90%"
       id="mention-input"
       v-model="searchVal"
       ref="input"
@@ -56,7 +57,7 @@ export default {
       // enter - 插入 mention node
       if (event.key === 'Enter') {
         // 插入第一个
-        const firstOne = this.searchedList[0]
+        const [firstOne] = this.searchedList
         if (firstOne) {
           const { id, name } = firstOne
           this.insertMentionHandler(id, name)
