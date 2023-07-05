@@ -2,7 +2,7 @@
   <div id="app">
     <button @click="addKnowledge">兼容xml-选区新增一行知识库</button>
     <button @click="appendNode(node1)">新版json-选区新增一行内容</button>
-    <button @click="getselectNode">获取选中区域内容JSON</button>
+    <button @click="getSelectNode">获取选中区域内容JSON</button>
     <button @click="selectToKnowledge">将该选区形成新的知识库</button>
     <button
       v-for="(item, index) in knowledgeList"
@@ -36,27 +36,45 @@
       <my-editor></my-editor>
     </el-card> -->
 
-    <!-- <my-editor></my-editor> -->
     <!-- <MyEditorWithFormula></MyEditorWithFormula> -->
-    <my-editor-with-mention ref="editor"></my-editor-with-mention>
+    <el-row>
+      <el-col :span="12">
+        <my-editor-with-mention
+          ref="editor"
+          @changePage="changePage"
+        ></my-editor-with-mention>
+      </el-col>
+      <el-col :span="12">
+        <my-editor ref="page" :html="pageHtml"></my-editor>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-// import MyEditor from './components/MyEditor.vue'
+import MyEditor from './components/MyEditor.vue'
 // import MyEditorWithFormula from './components/MyEditorWithFormula'
 import MyEditorWithMention from './components/MyEditorWithMention'
 
 export default {
   name: 'App',
   components: {
-    // MyEditor,
+    MyEditor,
     // MyEditorWithFormula,
     MyEditorWithMention
   },
   data() {
     return {
       knowledgeList: [],
+      headHtml: {
+        type: 'header2',
+        children: [{ text: '报告表头', bold: true }]
+      },
+      footerHtml: {
+        type: 'header2',
+        children: [{ text: '报告表尾', bold: true }]
+      },
+      pageHtml: '',
       node1: [
         { text: '脑切面质形态结构异常，回声分布不均，在' },
         {
@@ -90,12 +108,26 @@ export default {
     }
   },
   methods: {
+    changePage(el) {
+      let ele = []
+      el.forEach(page => {
+        ele.push(this.headHtml)
+        page.forEach(child => {
+          console.log(child.node)
+          ele.push(child.node)
+        })
+        ele.push(this.footerHtml)
+      })
+      console.log(ele, el)
+      // this.pageHtml = ele
+      this.$refs.page.installNodes(JSON.parse(JSON.stringify(ele)))
+    },
     selectToKnowledge() {
       let knowledge = this.$refs.editor.selectToKnowledge() //形成知识库
       this.knowledgeList.push(knowledge)
     },
-    getselectNode() {
-      return this.$refs.editor.getselectNode() //获取节点
+    getSelectNode() {
+      return this.$refs.editor.getSelectNode() //获取节点
     },
     appendNode(node) {
       this.$refs.editor.installNodes(JSON.parse(JSON.stringify(node))) //添加节点

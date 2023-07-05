@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>wangEditor mention demo</p>
+    <p>元素堆叠超过150px，共生成了{{ pageElement.length }}页</p>
     <div style="border: 1px solid #ccc">
       <Toolbar
         style="border-bottom: 1px solid #ccc"
@@ -13,6 +13,7 @@
         :defaultConfig="editorConfig"
         @onCreated="onCreated"
         @customAlert="customAlert"
+        @onChange="onChange"
       />
       <mention-modal
         ref="mention"
@@ -22,7 +23,7 @@
       ></mention-modal>
     </div>
     <div style="margin-top: 10px">
-      <textarea v-model="html" style="width: 100%; height: 500px"></textarea>
+      <textarea v-model="html" style="width: 100%; height: 300px"></textarea>
     </div>
   </div>
 </template>
@@ -30,7 +31,6 @@
 <script>
 import { Boot, DomEditor, SlateTransforms } from '@wangeditor/editor'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-// import mentionModule from '@wangeditor/plugin-mention'
 import mentionModule from '@/plugin'
 import MentionModal from './MentionModal'
 
@@ -42,7 +42,9 @@ export default {
   components: { Editor, Toolbar, MentionModal },
   data() {
     return {
+      pageElement: [],
       editor: null,
+      pageEditor: null,
       html: '<p>你好<span data-w-e-type="mention" data-w-e-is-void data-w-e-is-inline data-value="A张三" data-info="%7B%22id%22%3A%22a%22%7D">@A张三</span></p>',
       toolbarConfig: {},
       editorConfig: {
@@ -55,14 +57,49 @@ export default {
           }
         }
       },
-      isShowModal: false
+      isShowModal: false,
+      heightList: []
     }
   },
   methods: {
+    onChange(editor) {
+      // console.log('onChange', editor.getHtml(), editor)
+      this.$nextTick(() => {
+        this.pagingOperation(editor)
+      })
+    },
+    pagingOperation(editor) {
+      let limitHeight = 150
+      let pageElement = []
+      let height = 0
+      let IElement = []
+      editor.children.forEach((i, index) => {
+        let dom = editor.toDOMNode(i)
+        let domHeight = dom.offsetHeight
+        height = domHeight + height //堆叠高度
+        console.log(height)
+        if (height < limitHeight + 20) {
+          IElement.push({
+            height: domHeight + getComputedStyle(dom, null).marginTop,
+            dom,
+            node: i
+          })
+        } else {
+          pageElement.push(IElement)
+          height = domHeight
+          IElement = [{ height: domHeight + 16, dom, node: i }]
+        }
+        if (index + 1 == editor.children.length) {
+          pageElement.push(IElement)
+        }
+      })
+      this.$emit('changePage', pageElement)
+      this.pageElement = pageElement
+    },
     selectToKnowledge() {
       return this.editor.getFragment()
     },
-    getselectNode() {
+    getSelectNode() {
       this.editor.restoreSelection()
       console.log(this.editor.getFragment())
     },
@@ -156,3 +193,8 @@ export default {
 </script>
 
 <style src="@wangeditor/editor/dist/css/style.css"></style>
+<style rel="stylesheet/scss" lang="scss" scope>
+.editor-box {
+  display: flex;
+}
+</style>
