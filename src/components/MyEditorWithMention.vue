@@ -1,6 +1,11 @@
 <template>
   <div>
-    <p>元素堆叠超过150px，共生成了{{ pageElement.length }}页</p>
+    <p>
+      元素堆叠超过<input
+        type="number"
+        v-model.number="limitHeight"
+      />px，共生成了{{ pageElement.length }}页
+    </p>
     <div style="border: 1px solid #ccc">
       <Toolbar
         style="border-bottom: 1px solid #ccc"
@@ -42,6 +47,7 @@ export default {
   components: { Editor, Toolbar, MentionModal },
   data() {
     return {
+      limitHeight: 150,
       pageElement: [],
       editor: null,
       pageEditor: null,
@@ -63,13 +69,11 @@ export default {
   },
   methods: {
     onChange(editor) {
-      // console.log('onChange', editor.getHtml(), editor)
       this.$nextTick(() => {
         this.pagingOperation(editor)
       })
     },
     pagingOperation(editor) {
-      let limitHeight = 150
       let pageElement = []
       let height = 0
       let IElement = []
@@ -78,7 +82,7 @@ export default {
         let domHeight = dom.offsetHeight
         height = domHeight + height //堆叠高度
         console.log(height)
-        if (height < limitHeight + 20) {
+        if (height < this.limitHeight + 20) {
           IElement.push({
             height: domHeight + getComputedStyle(dom, null).marginTop,
             dom,
